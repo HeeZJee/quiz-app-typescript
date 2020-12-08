@@ -9,7 +9,6 @@ import Score from './Score';
 
 
 const TOTAL_QUESTION = 5
-const EMPTY_ARRAY = Array.from(Array(TOTAL_QUESTION).keys())
 
 export default function Quiz(): ReactElement {
 
@@ -20,12 +19,12 @@ export default function Quiz(): ReactElement {
     const [id, setId] = useState(0)
     const [restart, setRestart] = useState(false)
     const [userAnswer, setUserAnswer] = useState<boolean>(false)
-    const [corrects, setCorrects] = useState<boolean[]>([])
-    const [answer, setAnswer] = useState<boolean | null>(null)
+    const [score, setScore] = useState(0);
     const handleStart = () => {
         (async () => {
             setRestart(false)
             setUserAnswer(false)
+            setScore(0);
             // setStart(false)
             setLoading(true)
             const response = await fetchQuestions(TOTAL_QUESTION, DIFFICULTY.EASY)
@@ -54,26 +53,23 @@ export default function Quiz(): ReactElement {
         if (!start) {
             const answer = e.currentTarget.value
             const correctAnswer = questions[id].correct_answer === answer
-
-            setAnswer(correctAnswer)
+            correctAnswer && setScore(score + 1)
             setUserAnswer(true)
-            setCorrects(prevState => [...prevState, correctAnswer])
         }
     }
 
     return (
         <div>
             <h1>Quiz App</h1>
-            <Score
-                answer={answer}
-                length={EMPTY_ARRAY}
-                questionId={id}
-            />
-            {/* <Question /> */}
             <Loader type='Puff' visible={loading} color='#c8c6f0' />
+            { !loading && !start &&
+                <Score
+                    score={score}
+                    total={TOTAL_QUESTION}
+                    result={restart}
+                />}
             {!loading && !start && !restart &&
                 <Questions
-                    // questionId={id + 1}
                     questionData={questions[id]}
                     callback={handleAnswer}
                     userAnswer={userAnswer}

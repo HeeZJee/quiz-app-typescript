@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react'
-import { IQuestion } from '../utils/helper'
 
 
 interface IQuestionCard {
     question: string
-    // correct_answer: string
     answers: string[]
     callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
     userAnswer: boolean;
