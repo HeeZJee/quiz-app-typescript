@@ -4,13 +4,6 @@ export enum DIFFICULTY {
   HARD = "hard",
 }
 
-export type TAnswer = "correct" | "incorrect" | undefined;
-
-export enum ANSWER {
-  CORRECT = "correct",
-  INCORRECT = "incorrect",
-}
-
 export interface IQuestionInitial {
   category: string;
   type: string;
