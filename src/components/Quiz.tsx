@@ -19,13 +19,15 @@ export default function Quiz(): ReactElement {
     const [id, setId] = useState(0)
     const [restart, setRestart] = useState(false)
     const [userAnswer, setUserAnswer] = useState<boolean>(false)
+    const [answerValue, setAnswerValue] = useState<string>('')
     const [score, setScore] = useState(0);
+    const [correct, setCorrectValue] = useState('')
+
     const handleStart = () => {
         (async () => {
             setRestart(false)
             setUserAnswer(false)
             setScore(0);
-            // setStart(false)
             setLoading(true)
             const response = await fetchQuestions(TOTAL_QUESTION, DIFFICULTY.EASY)
             setQuestions(response)
@@ -42,17 +44,17 @@ export default function Quiz(): ReactElement {
             setUserAnswer(false)
         }
         else {
-            // setStart(false)
             setRestart(true)
             setNext(false)
-            // setUserAnswer(true)
         }
     }
 
     const handleAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (!start) {
             const answer = e.currentTarget.value
+            setAnswerValue(answer)
             const correctAnswer = questions[id].correct_answer === answer
+            correctAnswer && setCorrectValue(questions[id].correct_answer)
             correctAnswer && setScore(score + 1)
             setUserAnswer(true)
         }
@@ -73,6 +75,8 @@ export default function Quiz(): ReactElement {
                     questionData={questions[id]}
                     callback={handleAnswer}
                     userAnswer={userAnswer}
+                    answerValue={answerValue}
+                    correct={correct}
                 />}
 
             { start && <button onClick={handleStart}><IoPlayOutline /></button>}

@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+import { Button, ButtonWrapper } from '../styles/style'
 
 
 interface IQuestionCard {
@@ -6,19 +7,24 @@ interface IQuestionCard {
     answers: string[]
     callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
     userAnswer: boolean;
+    correct_answer: string;
+    answerValue: string;
+    correct: string;
 }
 
-export default function Card({ question, answers, callback, userAnswer }: IQuestionCard): ReactElement {
+export default function Card({ question, answers, callback, userAnswer, correct, answerValue }: IQuestionCard): ReactElement {
+
+
     return (
         <div>
             <p dangerouslySetInnerHTML={{ __html: question }} />
-            <div>
-                {answers.map((answer) => (
-                    <button value={answer} key={answer} onClick={callback} disabled={userAnswer} >
+            <ButtonWrapper>
+                {answers.map((answer: string) => (
+                    <Button correct={correct === answer} click={answerValue === answer} value={answer} key={answer} onClick={callback} disabled={userAnswer} >
                         <span dangerouslySetInnerHTML={{ __html: answer }} />
-                    </button>
+                    </Button>
                 ))}
-            </div>
+            </ButtonWrapper>
         </div >
     )
 }
