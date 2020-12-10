@@ -20,7 +20,10 @@ export default function Card({
 }: IQuestionCard): ReactElement {
   return (
     <div>
-      <p dangerouslySetInnerHTML={{ __html: question }} />
+      <p
+        dangerouslySetInnerHTML={{ __html: question }}
+        style={{ padding: "10px" }}
+      />
       <ButtonWrapper>
         {answers.map((answer: string) => (
           <AnswerButton

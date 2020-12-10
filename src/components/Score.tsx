@@ -33,7 +33,7 @@ export default function Score({
       {result && (
         <>
           <p style={{ fontSize: 24, marginTop: "50px" }}>
-            {color === green ? `Passed 👏` : `Fail 😲`}
+            {color === green ? `Passed 👏` : `Failed 😲`}
           </p>
           <PercentageWrapper color={color}>
             <span>Score: {percentage}%</span>
