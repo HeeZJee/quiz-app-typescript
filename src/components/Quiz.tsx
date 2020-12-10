@@ -2,10 +2,12 @@ import React, { ReactElement, useState } from 'react'
 import { fetchQuestions } from '../utils/api'
 import { DIFFICULTY, IQuestion } from '../utils/helper'
 import Loader from 'react-loader-spinner'
-import { GrNext, GrPowerReset } from 'react-icons/gr';
 import { IoPlayOutline } from 'react-icons/io5/';
+import { FiChevronRight, FiRotateCcw } from 'react-icons/fi';
 import Questions from './Questions';
 import Score from './Score';
+import { IconButton } from '../styles/style';
+import { white } from '../utils/colors';
 
 
 const TOTAL_QUESTION = 5
@@ -64,12 +66,14 @@ export default function Quiz(): ReactElement {
         <div>
             <h1>Quiz App</h1>
             <Loader type='Puff' visible={loading} color='#c8c6f0' />
+
             { !loading && !start &&
                 <Score
                     score={score}
                     total={TOTAL_QUESTION}
                     result={restart}
                 />}
+
             {!loading && !start && !restart &&
                 <Questions
                     questionData={questions[id]}
@@ -79,10 +83,20 @@ export default function Quiz(): ReactElement {
                     correct={correct}
                 />}
 
-            { start && <button onClick={handleStart}><IoPlayOutline /></button>}
-            { restart && <button onClick={handleStart}><GrPowerReset /></button>}
+            {!loading && start &&
+                <IconButton onClick={handleStart} style={{ position: 'absolute', top: "50%", transform: "translate(-50%, -50%)" }}>
+                    <IoPlayOutline color={white} size={60} title="start" />
+                </IconButton>}
 
-            {next && < button onClick={handleNext} disabled={!userAnswer} ><GrNext /></button>}
+            {!loading && next &&
+                <IconButton onClick={handleNext} disabled={!userAnswer} style={{ position: "relative", top: 0, bottom: 0 }}>
+                    <FiChevronRight color={white} size={40} />
+                </IconButton>}
+
+            {!loading && restart &&
+                <IconButton onClick={handleStart} style={{ position: 'absolute', top: "50%", transform: "translate(-50%, -50%)" }}>
+                    <FiRotateCcw color={white} size={40} />
+                </IconButton>}
         </div >
     )
 }

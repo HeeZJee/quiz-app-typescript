@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { Button, ButtonWrapper } from '../styles/style'
+import { AnswerButton, ButtonWrapper } from '../styles/style'
 
 
 interface IQuestionCard {
@@ -20,9 +20,9 @@ export default function Card({ question, answers, callback, userAnswer, correct,
             <p dangerouslySetInnerHTML={{ __html: question }} />
             <ButtonWrapper>
                 {answers.map((answer: string) => (
-                    <Button correct={correct === answer} click={answerValue === answer} value={answer} key={answer} onClick={callback} disabled={userAnswer} >
+                    <AnswerButton correct={correct === answer} click={answerValue === answer} value={answer} key={answer} onClick={callback} disabled={userAnswer} >
                         <span dangerouslySetInnerHTML={{ __html: answer }} />
-                    </Button>
+                    </AnswerButton>
                 ))}
             </ButtonWrapper>
         </div >
