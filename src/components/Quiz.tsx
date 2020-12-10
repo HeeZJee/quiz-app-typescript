@@ -6,7 +6,7 @@ import { IoPlayOutline } from "react-icons/io5/";
 import { FiChevronRight, FiRotateCcw } from "react-icons/fi";
 import Questions from "./Questions";
 import Score from "./Score";
-import { IconButton } from "../styles/style";
+import { Footer, IconButton } from "../styles/style";
 import { white } from "../utils/colors";
 
 const TOTAL_QUESTION = 5;
@@ -18,8 +18,8 @@ export default function Quiz(): ReactElement {
   const [next, setNext] = useState(false);
   const [restart, setRestart] = useState(false);
   const [userAnswer, setUserAnswer] = useState(false);
-  const [answerValue, setAnswerValue] = useState("");
-  const [score, setScore] = useState(0);
+  const [correct, setCorrect] = useState(0);
+  const [incorrect, setIncorrect] = useState(0);
   const [id, setId] = useState(0);
   const [answersValue, setAnswersValue] = useState<IAnswersValue[]>([]);
 
@@ -27,7 +27,8 @@ export default function Quiz(): ReactElement {
     (async () => {
       setRestart(false);
       setUserAnswer(false);
-      setScore(0);
+      setCorrect(0);
+      setIncorrect(0);
       setLoading(true);
       const response = await fetchQuestions(TOTAL_QUESTION, DIFFICULTY.EASY);
       setQuestions(response);
@@ -35,6 +36,7 @@ export default function Quiz(): ReactElement {
       setStart(false);
       setNext(true);
       setId(0);
+      setAnswersValue([]);
     })();
   };
 
@@ -51,15 +53,14 @@ export default function Quiz(): ReactElement {
   const handleAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!start) {
       const answer = e.currentTarget.value;
-      setAnswerValue(answer);
-      const correct = questions[id].correct_answer;
+      const correctValue = questions[id].correct_answer;
       const answerObject = {
         answer,
-        correct,
+        correct: correctValue,
       };
       setAnswersValue((prev) => [...prev, answerObject]);
-      const correctAnswer = correct === answer;
-      correctAnswer && setScore(score + 1);
+      const correctAnswer = correctValue === answer;
+      correctAnswer ? setCorrect(correct + 1) : setIncorrect(incorrect + 1);
       setUserAnswer(true);
     }
   };
@@ -67,10 +68,20 @@ export default function Quiz(): ReactElement {
   return (
     <div>
       <h1>Quiz App</h1>
-      <Loader type="Puff" visible={loading} color="#c8c6f0" />
+      <Loader
+        type="Puff"
+        visible={loading}
+        color="#c8c6f0"
+        style={{
+          position: "absolute",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          left: "50%",
+        }}
+      />
 
       {!loading && !start && (
-        <Score score={score} total={TOTAL_QUESTION} result={restart} />
+        <Score correct={correct} incorrect={incorrect} result={restart} />
       )}
 
       {!loading && !start && !restart && (
@@ -99,7 +110,7 @@ export default function Quiz(): ReactElement {
         <IconButton
           onClick={handleNext}
           disabled={!userAnswer}
-          style={{ position: "relative", top: 0, bottom: 0 }}
+          style={{ marginTop: "1rem" }}
         >
           <FiChevronRight color={white} size={40} />
         </IconButton>
@@ -110,13 +121,27 @@ export default function Quiz(): ReactElement {
           onClick={handleStart}
           style={{
             position: "absolute",
-            top: "50%",
+            top: "65%",
+            left: "50%",
             transform: "translate(-50%, -50%)",
           }}
         >
           <FiRotateCcw color={white} size={40} />
         </IconButton>
       )}
+      <Footer>
+        <p>
+          @
+          <a
+            href="https://www.linkedin.com/in/HeeZJee"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            HeeZJee
+          </a>
+          &nbsp;&nbsp;&nbsp;Panacloud Bootcamp 2020
+        </p>
+      </Footer>
     </div>
   );
 }
