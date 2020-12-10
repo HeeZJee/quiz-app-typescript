@@ -8,7 +8,6 @@ import Questions from "./Questions";
 import Score from "./Score";
 import { IconButton } from "../styles/style";
 import { white } from "../utils/colors";
-import { ContactSupport } from "@material-ui/icons";
 
 const TOTAL_QUESTION = 5;
 
