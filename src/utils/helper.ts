@@ -13,6 +13,11 @@ export interface IQuestionInitial {
   incorrect_answers: string[];
 }
 
+export interface IAnswersValue {
+  answer: string;
+  correct: string;
+}
+
 export interface IQuestion extends IQuestionInitial {
   answers: string[];
 }
