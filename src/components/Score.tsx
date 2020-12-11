@@ -23,10 +23,10 @@ export default function Score({
   return (
     <ScoreWrapper>
       <IconWrapper>
-        <ScoreIcon color={green} style={{ marginRight: "20px" }}>
+        <ScoreIcon color={green} style={{ marginRight: "40px" }}>
           {correct}
         </ScoreIcon>
-        <ScoreIcon color={red} style={{ marginLeft: "20px" }}>
+        <ScoreIcon color={red} style={{ marginLeft: "40px" }}>
           {incorrect}
         </ScoreIcon>
       </IconWrapper>

@@ -22,7 +22,7 @@ export default function Card({
     <div>
       <p
         dangerouslySetInnerHTML={{ __html: question }}
-        style={{ padding: "10px" }}
+        style={{ paddingLeft: "10px", paddingRight: "10px" }}
       />
       <ButtonWrapper>
         {answers.map((answer: string) => (
