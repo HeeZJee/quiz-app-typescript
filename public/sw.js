@@ -29,9 +29,25 @@ self.addEventListener('install', e => {
 })
 
 self.addEventListener('fetch', e => {
-    e.respondWith(caches.match(e.request)
-        .then(cacheRes =>
-            cacheRes || fetch(e.request))
-        .catch(e => console.log('Service Worker Fetch Error', e))
-    )
+  e.respondWith(
+    caches.match(e.request).then((resp) => {
+      return (
+        resp ||
+        fetch(e.request, {
+          mode: "no-cors",
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: null,
+        }).then((response) => {
+          return caches.open(cacheName).then((cache) => {
+            console.log("fetching", cache);
+            cache.put(e.request, response.clone());
+            return response;
+          });
+        })
+      );
+    })
+  );
 })
