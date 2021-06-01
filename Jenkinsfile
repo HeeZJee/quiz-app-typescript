@@ -11,6 +11,7 @@ pipeline {
                 sh 'npm install' 
                 sh 'npm run build' 
                 sh 'tar -cvf build.tar build'
+                sh 'ls -laoh'
             }
         }
     }
